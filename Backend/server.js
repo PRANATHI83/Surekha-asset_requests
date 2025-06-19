@@ -169,5 +169,5 @@ app.delete('/api/requests/clear', async (req, res) => {
 
 // Start server
 app.listen(port, () => {
-    console.log(`Server running at http://3.109.121.33:${port}`);
+    console.log(`Server running at http://13.232.17.95:${port}`);
 });
