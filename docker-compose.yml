@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: asset_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin1023
+      POSTGRES_DB: asset_management
+    ports:
+      - "5443:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: asset_backend
+    depends_on:
+      - postgres
+    ports:
+      - "3013:3013"
+    environment:
+      - NODE_ENV=production
+
+  employee-asset:
+    build:
+      context: ./Employee-Asset
+      dockerfile: Dockerfile
+    container_name: asset_employee
+    ports:
+      - "8025:80"
+
+  hr-asset:
+    build:
+      context: ./Hr-Asset
+      dockerfile: Dockerfile
+    container_name: asset_hr
+    ports:
+      - "8026:80"
+
+volumes:
+  pgdata:
+
